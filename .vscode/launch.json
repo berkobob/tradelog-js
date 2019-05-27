@@ -7,20 +7,26 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Debug",
             "program": "${workspaceFolder}/src/index.js",
-            "args": ["-r dotenv-flow/config", "--node-env=dev"]
+            "envFile": "${workspaceFolder}/config/.env.dev"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Nodemon",
             "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
-            "program": "${workspaceFolder}/src/app.js",
-            "args": ["-r dotenv-flow/config", "--node-env=dev"],
+            "program": "${workspaceFolder}/src/index.js",
+            "envFile": "${workspaceFolder}/config/.env.dev",
             "restart": true,
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest",
+            "program": "${workspaceRoot}/node_modules/.bin/jest"
         }
     ]
 }
