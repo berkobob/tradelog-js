@@ -4,7 +4,7 @@
     "description": "A log of options trades",
     "main": "index.js",
     "scripts": {
-        "start": "DOTENV_FLOW_PATH=config node -r dotenv-flow/config src/index.js --node-env=dev",
+        "start": "node src/index.js",
         "nodemon": "DOTENV_FLOW_PATH=config nodemon -r dotenv-flow/config src/index.js --node-env=dev",
         "test": "DOTENV_FLOW_PATH=config jest --setupFiles dotenv-flow/config --detectOpenHandles --forceExit --runInBand"
     },
