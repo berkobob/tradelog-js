@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Trade = require("../models/trade");
+const validate = require("../utils/validate");
 
 router.get("/", (req, res, next) => {
     Trade.find({})
@@ -9,11 +10,11 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/", (req, res) => {
-    const trade = new Trade(req.body);
+    const trade = new Trade(validate(req.body));
     trade
         .save()
         .then(data => res.status(201).send(data))
-        .catch(error => res.status(400).send);
+        .catch(error => res.status(400).send(error));
 });
 
 router.get("/:tradeID", (req, res) => {

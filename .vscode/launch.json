@@ -27,6 +27,20 @@
             "request": "launch",
             "name": "Jest",
             "program": "${workspaceRoot}/node_modules/.bin/jest"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest Current File",
+            "program": "${workspaceFolder}/node_modules/.bin/jest",
+            "args": ["${currentFile}", "--forceExit", "--detectOpenHandles"],
+            "envFile": "${workspaceFolder}/config/.env.test",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true,
+            "windows": {
+                "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+            }
         }
     ]
 }
