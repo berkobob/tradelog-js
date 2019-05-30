@@ -31,7 +31,7 @@ const tradeSchema = mongoose.Schema({
     putOrCall: {
         type: String,
         trim: true,
-        enum: ["P", "C"],
+        enum: ["P", "C", ""],
     },
     tradePrice: {
         type: Number,
