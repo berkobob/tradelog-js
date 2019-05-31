@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
 router.get("/:tradeID", (req, res) => {
     Trade.findById(req.params.tradeID)
         .then(data => {
-            if (data) res.status(200).send(data);
+            if (data) res.status(200).send([data]);
             else res.status(404).send();
         })
         .catch(err => res.status(500).send(err));
