@@ -1,9 +1,13 @@
+const path = require("path");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const exphbs = require("express-handlebars");
 const apiRoutes = require("./routes/api");
+const homeRoutes = require("./routes/home");
 
+// Startup the database
 mongoose
     .connect(process.env.MONGODB_URL, {
         useNewUrlParser: true,
@@ -15,32 +19,17 @@ mongoose
         console.log("Database connection error:", err.errmsg, "\n", err),
     );
 
+// Use handlebars at templating engine
+app.engine("hbs", exphbs({ defaultLayout: "main", extname: "hbs" }));
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views"));
+
+// Config express
+app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 app.use(morgan("dev")); // Logger
 app.use("/api", apiRoutes); // API router
-
-// A single home route to see that we're up and running
-app.get("/", (req, res) => {
-    res.send("And we're off");
-});
-
-// // This is middleware to manage CORS errors
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header(
-//         "Access-Control-Allow-Headers",
-//         "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-//     );
-
-//     if (req.method === "OPTIONS") {
-//         res.header(
-//             "Access-Control-Allow-Methods",
-//             "PUT, POST, PATCH, DELETE, GET",
-//         );
-//         return res.status(200).json({});
-//     }
-//     next();
-// });
+app.use(homeRoutes);
 
 // This last route is a catchall to capture not found requests
 app.use((req, res, next) => {
@@ -60,3 +49,21 @@ app.use((error, req, res, next) => {
 });
 
 module.exports = app;
+
+// // This is middleware to manage CORS errors
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header(
+//         "Access-Control-Allow-Headers",
+//         "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+//     );
+
+//     if (req.method === "OPTIONS") {
+//         res.header(
+//             "Access-Control-Allow-Methods",
+//             "PUT, POST, PATCH, DELETE, GET",
+//         );
+//         return res.status(200).json({});
+//     }
+//     next();
+// });
