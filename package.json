@@ -2,9 +2,9 @@
     "name": "tradelog",
     "version": "1.0.0",
     "description": "A log of options trades",
-    "main": "index.js",
+    "main": "src/index.js",
     "scripts": {
-        "start": "node src/index.js",
+        "start": "DOTENV_FLOW_PATH=config node -r dotenv-flow/config src/index.js --node-env=test",
         "nodemon": "DOTENV_FLOW_PATH=config nodemon -r dotenv-flow/config src/index.js --node-env=dev",
         "test": "DOTENV_FLOW_PATH=config jest --setupFiles dotenv-flow/config --detectOpenHandles --forceExit --runInBand"
     },
