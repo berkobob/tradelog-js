@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const exphbs = require("express-handlebars");
 const apiRoutes = require("./routes/api");
 const homeRoutes = require("./routes/home");
+const moment = require("moment");
+const numeral = require("numeral");
 
 // Startup the database
 mongoose
@@ -20,7 +22,20 @@ mongoose
     );
 
 // Use handlebars at templating engine
-app.engine("hbs", exphbs({ defaultLayout: "main", extname: "hbs" }));
+numeral.defaultFormat("$0,0.00");
+app.engine(
+    "hbs",
+    exphbs({
+        defaultLayout: "main",
+        extname: "hbs",
+        helpers: {
+            formatDate: date => (date ? moment(date).format("DD/MM/YY") : ""),
+            formatStrike: amt => (amt ? numeral(amt).format() : ""),
+            formatCash: amt => numeral(amt).format(""),
+            formatNums: qty => numeral(qty).format("0,0"),
+        },
+    }),
+);
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 

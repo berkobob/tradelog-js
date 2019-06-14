@@ -1,8 +1,42 @@
-<table>
+<div class="w3-container">
+    <h1>Trades</h1>
+</div>
+<table class="w3-table-all">
+    <tr>
+        <th class="w3-center">DATE</th>
+        <th class="w3-left-align">BUY OR SELL</th>
+        <th class="w3-right-align">QUANTITY</th>
+        <th class="w3-left-align">SYMBOL</th>
+        <th class="w3-center">EXPIRY</th>
+        <th class="w3-right-align">STRIKE</th>
+        <th class="w3-center"> </th>
+        <th class="w3-right-align">PRICE</th>
+        <th class="w3-right-align">PROCEEDS</th>
+        <th class="w3-right-align">COMMISSION</th>
+        <th class="w3-right-align">NET CASH</th>
+        <th class="w3-center">ASSET</th>
+        <th class="w3-center"> </th>
+        <th class="w3-right-align">MULTIPLIER</th>
+        <th class="w3-center">NOTES</th>
 
+    </tr>
     {{# each results}}
     <tr>
-        This: {{this}}
+        <td class="w3-center">{{formatDate this.date}}</td>
+        <td class="w3-left-align">{{this.buyOrSell}}</td>
+        <td class="w3-right-align">{{formatNums this.quantity}}</td>
+        <td class="w3-left-align">{{this.symbol}}</td>
+        <td class="w3-center">{{formatDate this.expiry}}</td>
+        <td class="w3-right-align">{{formatStrike this.strike}}</td>
+        <td class="w3-center">{{this.putOrCall}}</td>
+        <td class="w3-right-align">{{formatCash this.tradePrice}}</td>
+        <td class="w3-right-align">{{formatCash this.proceeds}}</td>
+        <td class="w3-right-align">{{formatCash this.commission}}</td>
+        <td class="w3-right-align">{{formatCash this.netCash}}</td>
+        <td class="w3-center">{{this.assetClass}}</td>
+        <td class="w3-center">{{this.openOrClose}}</td>
+        <td class="w3-right-align">{{formatNums this.multiplier}}</td>
+        <td class="w3-center">{{this.notes}}</td>
     </tr>
     {{/each}}
 </table>
