@@ -5,9 +5,6 @@ const validate = require('../utils/validate');
 
 router.get('/', (req, res, next) => {
     let query = {};
-    console.log(req.headers.accept);
-    // console.log('Content Type:', req.headers.content - type);
-
     if (req.query.id) query._id = req.query.id;
     if (req.query.symbol) query.symbol = req.query.symbol;
 

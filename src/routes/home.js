@@ -1,12 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
+const Trade = require('../models/trade');
 
 router.get('/', (req, res) => {
-    res.render('home', {
-        name: 'Antoine',
-        age: 38,
-    });
+    let query = {};
+    if (req.query.id) query._id = req.query.id;
+    if (req.query.symbol) query.symbol = req.query.symbol;
+
+    Trade.find(query)
+        .then(results => res.status(200).render('home', { results: results }))
+        .catch(err => res.status(500).send(err));
+    // res.render('home', {
+    //     name: 'Antoine',
+    //     age: 38,
+    // });
 });
 
 router.get('/test', (req, res) => {
