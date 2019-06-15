@@ -1,17 +1,11 @@
 const express = require('express');
 const router = express.Router();
+
 const Trade = require('../models/trade');
 const validate = require('../utils/validate');
+const tradesController = require('../controllers/trades');
 
-router.get('/', (req, res, next) => {
-    let query = {};
-    if (req.query.id) query._id = req.query.id;
-    if (req.query.symbol) query.symbol = req.query.symbol;
-
-    Trade.find(query)
-        .then(result => res.status(200).send(result))
-        .catch(err => res.status(500).send(err));
-});
+router.get('/', tradesController.trades);
 
 router.post('/', (req, res) => {
     const trade = new Trade(validate(req.body));
