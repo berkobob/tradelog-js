@@ -19,6 +19,40 @@ function upload() {
         reader.readAsText(file, "UTF-8");
         reader.onload = e => {
             let rows = e.target.result.split("\n").slice(1, -1);
+            const headers = [
+                "date",
+                "buyOrSell",
+                "quantity",
+                "symbol",
+                "expiry",
+                "strike",
+                "putOrCall",
+                "tradePrice",
+                "proceeds",
+                "commission",
+                "netCash",
+                "assetClass",
+                "openOrClose",
+                "multiplier",
+                "notes",
+            ];
+            const cols = [
+                "w3-center",
+                "w3-left-align",
+                "w3-right-align",
+                "w3-left-align",
+                "w3-center",
+                "w3-right-align",
+                "w3-center",
+                "w3-right-align",
+                "w3-right-align",
+                "w3-right-align",
+                "w3-right-align",
+                "w3-center",
+                "w3-center",
+                "w3-right-align",
+                "w3-center",
+            ];
             rows.forEach(row => {
                 var newRow = table.insertRow(table.rows.length);
                 row = row.split(",");
@@ -26,10 +60,14 @@ function upload() {
                     let cell = newRow.insertCell(index);
                     let e = document.createElement("P");
                     e.innerHTML = row[index];
-                    e.classList.add("w3-center");
+                    e.classList.add(cols[index]);
                     cell.appendChild(e);
                 });
-                upload.push(row);
+                let trade = {};
+                headers.forEach((key, i) => (trade[key] = row[i]));
+                console.log(trade);
+
+                upload.push(trade);
             });
             console.log(upload);
         };
