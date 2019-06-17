@@ -1,8 +1,12 @@
 <div class="w3-container">
-    <h1>Trades</h1>
+    <div class="w3-cont">
+        <h1>Trades</h1>
+    </div>
+    <div class="w3-container"><button class="w3-right-align w3-btn" id="upload">Upload</button></div>
+    <input id="file-input" type="file" name="fileinput" style="display: none;" />
 </div>
-<table class="w3-table-all">
-    <tr>
+<table id="table" class="w3-table-all">
+    <tr id="header">
         <th class="w3-center">DATE</th>
         <th class="w3-left-align">BUY OR SELL</th>
         <th class="w3-right-align">QUANTITY</th>
@@ -22,21 +26,21 @@
     </tr>
     {{# each results}}
     <tr>
-        <td class="w3-center">{{formatDate this.date}}</td>
-        <td class="w3-left-align">{{this.buyOrSell}}</td>
-        <td class="w3-right-align">{{formatNums this.quantity}}</td>
-        <td class="w3-left-align">{{this.symbol}}</td>
-        <td class="w3-center">{{formatDate this.expiry}}</td>
-        <td class="w3-right-align">{{formatStrike this.strike}}</td>
-        <td class="w3-center">{{this.putOrCall}}</td>
-        <td class="w3-right-align">{{formatCash this.tradePrice}}</td>
-        <td class="w3-right-align">{{formatCash this.proceeds}}</td>
-        <td class="w3-right-align">{{formatCash this.commission}}</td>
-        <td class="w3-right-align">{{formatCash this.netCash}}</td>
-        <td class="w3-center">{{this.assetClass}}</td>
-        <td class="w3-center">{{this.openOrClose}}</td>
-        <td class="w3-right-align">{{formatNums this.multiplier}}</td>
-        <td class="w3-center">{{this.notes}}</td>
+        <td id="rows" class="w3-center">{{formatDate this.date}}</td>
+        <td id="rows" class="w3-left-align">{{this.buyOrSell}}</td>
+        <td id="rows" class="w3-right-align">{{formatNums this.quantity}}</td>
+        <td id="rows" class="w3-left-align">{{this.symbol}}</td>
+        <td id="rows" class="w3-center">{{formatDate this.expiry}}</td>
+        <td id="rows" class="w3-right-align">{{formatStrike this.strike}}</td>
+        <td id="rows" class="w3-center">{{this.putOrCall}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.tradePrice}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.proceeds}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.commission}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.netCash}}</td>
+        <td id="rows" class="w3-center">{{this.assetClass}}</td>
+        <td id="rows" class="w3-center">{{this.openOrClose}}</td>
+        <td id="rows" class="w3-right-align">{{formatNums this.multiplier}}</td>
+        <td id="rows" class="w3-center">{{this.notes}}</td>
     </tr>
     {{/each}}
 </table>
