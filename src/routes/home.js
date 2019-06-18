@@ -1,19 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const request = require('request');
+const request = require("request");
 
-const Trade = require('../models/trade');
-const tradesController = require('../controllers/trades');
+const Trade = require("../models/trade");
+const tradesController = require("../controllers/trades");
 
-router.get('/', tradesController.trades);
+router.get("/", tradesController.trades);
 
-router.get('/test', (req, res) => {
+router.post("/", (req, res) => {
+    console.log(req.body);
+    res.status(200).send("OK");
+});
+
+router.get("/test", (req, res) => {
     request(
-        'http://localhost:3000/api?id=5d0287456137ab41a424b957',
+        "http://localhost:3000/api?id=5d0287456137ab41a424b957",
         (err, data) => {
             if (err) throw err;
             res.send(data.body);
-        }
+        },
     );
 });
 

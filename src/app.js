@@ -45,7 +45,7 @@ app.use(express.json());
 app.use(morgan("dev")); // Logger
 app.use("/api", apiRoutes); // API router
 app.use(homeRoutes);
-
+app.use(express.json());
 // This last route is a catchall to capture not found requests
 app.use((req, res, next) => {
     const error = new Error("Not found");
