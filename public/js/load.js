@@ -68,15 +68,9 @@ function upload() {
             let rows = e.target.result.split("\n").slice(1, -1);
 
             rows.forEach(row => {
-                // var newRow = table.insertRow(table.rows.length);
-                // row = row.split(",");
-                // row.forEach((field, index) => {
-                //     let cell = newRow.insertCell(index);
-                //     let e = document.createElement("P");
-                //     e.innerHTML = row[index];
-                //     e.classList.add(cols[index]);
-                //     cell.appendChild(e);
-                // });
+                row = row.split(",");
+                console.log(row);
+
                 let trade = {};
                 headers.forEach((key, i) => (trade[key] = row[i]));
                 trades.push(trade);
@@ -152,8 +146,7 @@ function clearRows(table) {
 }
 
 function addRow(table, trade) {
-    console.log(typeof trade.tradePrice);
-
+    debugger;
     var row = table.insertRow(table.rows.length);
 
     headers.forEach((header, index) => {

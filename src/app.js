@@ -8,6 +8,7 @@ const apiRoutes = require("./routes/api");
 const homeRoutes = require("./routes/home");
 const moment = require("moment");
 const numeral = require("numeral");
+const favicon = require("serve-favicon");
 
 // Startup the database
 mongoose
@@ -40,12 +41,14 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 
 // Config express
+app.use(favicon(path.join(__dirname, "../public/img", "favicon.ico")));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 app.use(morgan("dev")); // Logger
 app.use("/api", apiRoutes); // API router
 app.use(homeRoutes);
-app.use(express.json());
+
 // This last route is a catchall to capture not found requests
 app.use((req, res, next) => {
     const error = new Error("Not found");
