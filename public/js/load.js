@@ -146,7 +146,6 @@ function clearRows(table) {
 }
 
 function addRow(table, trade) {
-    debugger;
     var row = table.insertRow(table.rows.length);
 
     headers.forEach((header, index) => {
