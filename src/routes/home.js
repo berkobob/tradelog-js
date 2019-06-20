@@ -7,9 +7,16 @@ const tradesController = require("../controllers/trades");
 
 router.get("/", tradesController.trades);
 
-router.post("/", (req, res) => {
-    console.log(req.body);
-    res.status(200).send("OK");
+router.post("/", tradesController.upload);
+
+router.post("/upload", (req, res) => {
+    console.log("Trades:", req.body);
+
+    // let trades = JSON.parse(req.body.trades);
+    // console.log(trades);
+
+    // req.body.trades.forEach(trade => console.log(trade));
+    res.redirect("/");
 });
 
 router.get("/test", (req, res) => {

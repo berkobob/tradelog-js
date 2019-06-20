@@ -1,11 +1,8 @@
 <div class="w3-container">
-    <button class="w3-right-align w3-button" id="upload">Load</button>
-    <form method="get" action="/" id="form">
-        <input type="text" name="symbol" />
-    </form>
-    <form action="/" method="post" encType="multipart/form-data">
-        <input type="file" name="file" id="file">
-        <input type="submit">
+    {{formatJson trades}}
+    <form action="/upload" method="post">
+        <input type="textarea" name="trades" , value={{formatJson trades}}>
+        <input type="submit" value="Commit">
     </form>
 </div>
 <table id="table" class="w3-table-all">
@@ -27,22 +24,22 @@
         <th class="w3-center">NOTES</th>
 
     </tr>
-    {{# each results}}
+    {{# each trades}}
     <tr>
-        <td id="rows" class="w3-center">{{formatDate this.date}}</td>
+        <td id="rows" class="w3-center">{{this.date}}</td>
         <td id="rows" class="w3-left-align">{{this.buyOrSell}}</td>
-        <td id="rows" class="w3-right-align">{{formatNums this.quantity}}</td>
+        <td id="rows" class="w3-right-align">{{this.quantity}}</td>
         <td id="rows" class="w3-left-align">{{this.symbol}}</td>
-        <td id="rows" class="w3-center">{{formatDate this.expiry}}</td>
-        <td id="rows" class="w3-right-align">{{formatStrike this.strike}}</td>
+        <td id="rows" class="w3-center">{{this.expiry}}</td>
+        <td id="rows" class="w3-right-align">{{this.strike}}</td>
         <td id="rows" class="w3-center">{{this.putOrCall}}</td>
-        <td id="rows" class="w3-right-align">{{formatCash this.tradePrice}}</td>
-        <td id="rows" class="w3-right-align">{{formatCash this.proceeds}}</td>
-        <td id="rows" class="w3-right-align">{{formatCash this.commission}}</td>
-        <td id="rows" class="w3-right-align">{{formatCash this.netCash}}</td>
+        <td id="rows" class="w3-right-align">{{this.tradePrice}}</td>
+        <td id="rows" class="w3-right-align">{{this.proceeds}}</td>
+        <td id="rows" class="w3-right-align">{{this.commission}}</td>
+        <td id="rows" class="w3-right-align">{{this.netCash}}</td>
         <td id="rows" class="w3-center">{{this.assetClass}}</td>
         <td id="rows" class="w3-center">{{this.openOrClose}}</td>
-        <td id="rows" class="w3-right-align">{{formatNums this.multiplier}}</td>
+        <td id="rows" class="w3-right-align">{{this.multiplier}}</td>
         <td id="rows" class="w3-center">{{this.notes}}</td>
     </tr>
     {{/each}}

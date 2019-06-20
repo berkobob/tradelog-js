@@ -1,0 +1,17 @@
+exports.headers = [
+    "date",
+    "buyOrSell",
+    "quantity",
+    "symbol",
+    "expiry",
+    "strike",
+    "putOrCall",
+    "tradePrice",
+    "proceeds",
+    "commission",
+    "netCash",
+    "assetClass",
+    "openOrClose",
+    "multiplier",
+    "notes",
+];

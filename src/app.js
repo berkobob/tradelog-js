@@ -1,14 +1,18 @@
 const path = require("path");
 const express = require("express");
-const app = express();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const exphbs = require("express-handlebars");
-const apiRoutes = require("./routes/api");
-const homeRoutes = require("./routes/home");
 const moment = require("moment");
 const numeral = require("numeral");
 const favicon = require("serve-favicon");
+const fileupload = require("express-fileupload");
+const bodyParser = require("body-parser");
+
+const apiRoutes = require("./routes/api");
+const homeRoutes = require("./routes/home");
+
+const app = express();
 
 // Startup the database
 mongoose
@@ -19,7 +23,14 @@ mongoose
     })
     .then(() => console.log(`Connected to ${process.env.MONGODB}`))
     .catch(err =>
-        console.log("Database connection error:", err.errmsg, "\n", err),
+        console.log(
+            "Cannot find",
+            process.env.MONGODB,
+            "\nDatabase connection error:",
+            err.errmsg,
+            "\n",
+            err,
+        ),
     );
 
 // Use handlebars at templating engine
@@ -34,6 +45,7 @@ app.engine(
             formatStrike: amt => (amt ? numeral(amt).format() : ""),
             formatCash: amt => numeral(amt).format(""),
             formatNums: qty => numeral(qty).format("0,0"),
+            formatJson: json => JSON.stringify(json),
         },
     }),
 );
@@ -42,10 +54,12 @@ app.set("views", path.join(__dirname, "views"));
 
 // Config express
 app.use(favicon(path.join(__dirname, "../public/img", "favicon.ico")));
-app.use(express.json());
 app.use(express.static(path.join(__dirname, "../public")));
-app.use(express.json());
 app.use(morgan("dev")); // Logger
+app.use(fileupload());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+
 app.use("/api", apiRoutes); // API router
 app.use(homeRoutes);
 
@@ -67,21 +81,3 @@ app.use((error, req, res, next) => {
 });
 
 module.exports = app;
-
-// // This is middleware to manage CORS errors
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header(
-//         "Access-Control-Allow-Headers",
-//         "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-//     );
-
-//     if (req.method === "OPTIONS") {
-//         res.header(
-//             "Access-Control-Allow-Methods",
-//             "PUT, POST, PATCH, DELETE, GET",
-//         );
-//         return res.status(200).json({});
-//     }
-//     next();
-// });
