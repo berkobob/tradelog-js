@@ -1,0 +1,62 @@
+<table id="table" class="w3-table-all">
+    <tr id="header">
+        <th class="w3-center">RESULT</th>
+        <th class="w3-center">DATE</th>
+        <th class="w3-left-align">BUY OR SELL</th>
+        <th class="w3-right-align">QUANTITY</th>
+        <th class="w3-left-align">SYMBOL</th>
+        <th class="w3-center">EXPIRY</th>
+        <th class="w3-right-align">STRIKE</th>
+        <th class="w3-center"> </th>
+        <th class="w3-right-align">PRICE</th>
+        <th class="w3-right-align">PROCEEDS</th>
+        <th class="w3-right-align">COMMISSION</th>
+        <th class="w3-right-align">NET CASH</th>
+        <th class="w3-center">ASSET</th>
+        <th class="w3-center"> </th>
+        <th class="w3-right-align">MULTIPLIER</th>
+        <th class="w3-center">NOTES</th>
+        <th class="w3-center">ID</th>
+    </tr>
+    {{# each trades}}
+    <tr>
+        {{#if this.errors}}
+        <td id="rows" class="w3-center w3-red">{{this.status}}</td>
+        <td id="rows" class="w3-center">{{formatDate this.trade.date}}</td>
+        <td id="rows" class="w3-left-align w3-red">{{ test "buyOrSell" this}}</td>
+        <td id="rows" class="w3-right-align">{{test "quantity" this}}</td>
+        <td id="rows" class="w3-left-align">{{test "symbol" this}}</td>
+        <td id="rows" class="w3-center">{{formatDate this.trade.expiry}}</td>
+        <td id="rows" class="w3-right-align">{{test "strike" this}}</td>
+        <td id="rows" class="w3-center">{{test "putOrCall" this}}</td>
+        <td id="rows" class="w3-right-align">{{test "tradePrice" this}}</td>
+        <td id="rows" class="w3-right-align">{{test "proceeds" this}}</td>
+        <td id="rows" class="w3-right-align">{{test "commission" this}}</td>
+        <td id="rows" class="w3-right-align">{{test "netCash" this}}</td>
+        <td id="rows" class="w3-center">{{test "assetClass" this}}</td>
+        <td id="rows" class="w3-center">{{test "openOrClose" this}}</td>
+        <td id="rows" class="w3-right-align">{{test "multiplier" this}}</td>
+        <td id="rows" class="w3-center">{{test "notes" this}}</td>
+        <td id="rows" class="w3-left-align w3-red">{{this.trade._id}}</td>
+        {{else}}
+        <td id="rows" class="w3-center w3-green">{{this.status}}</td>
+        <td id="rows" class="w3-center">{{formatDate this.trade.date}}</td>
+        <td id="rows" class="w3-left-align">{{this.trade.buyOrSell}}</td>
+        <td id="rows" class="w3-right-align">{{formatNums this.trade.quantity}}</td>
+        <td id="rows" class="w3-left-align">{{this.trade.symbol}}</td>
+        <td id="rows" class="w3-center">{{formatDate this.trade.expiry}}</td>
+        <td id="rows" class="w3-right-align">{{formatStrike this.trade.strike}}</td>
+        <td id="rows" class="w3-center">{{this.trade.putOrCall}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.trade.tradePrice}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.trade.proceeds}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.trade.commission}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.trade.netCash}}</td>
+        <td id="rows" class="w3-center">{{this.trade.assetClass}}</td>
+        <td id="rows" class="w3-center">{{this.trade.openOrClose}}</td>
+        <td id="rows" class="w3-right-align">{{formatNums this.trade.multiplier}}</td>
+        <td id="rows" class="w3-center">{{this.trade.notes}}</td>
+        <td id="rows" class="w3-left-align">{{this.trade._id}}</td>
+        {{/if}}
+    </tr>
+    {{/each}}
+</table>

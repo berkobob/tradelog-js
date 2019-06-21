@@ -8,6 +8,7 @@ const numeral = require("numeral");
 const favicon = require("serve-favicon");
 const fileupload = require("express-fileupload");
 const bodyParser = require("body-parser");
+const Handlebars = require("handlebars");
 
 const apiRoutes = require("./routes/api");
 const homeRoutes = require("./routes/home");
@@ -45,7 +46,15 @@ app.engine(
             formatStrike: amt => (amt ? numeral(amt).format() : ""),
             formatCash: amt => numeral(amt).format(""),
             formatNums: qty => numeral(qty).format("0,0"),
-            formatJson: json => JSON.stringify(json),
+            formatJson: json => JSON.stringify(json).replace(/ /g, "_"),
+            test: (error, trade) =>
+                trade.errors.includes(error)
+                    ? new Handlebars.SafeString(
+                          `<strong class="w3-red">${
+                              trade["trade"][error]
+                          }</strong>`,
+                      )
+                    : trade["trade"][error],
         },
     }),
 );

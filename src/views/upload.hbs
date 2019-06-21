@@ -1,7 +1,6 @@
 <div class="w3-container">
-    {{formatJson trades}}
     <form action="/upload" method="post">
-        <input type="textarea" name="trades" , value={{formatJson trades}}>
+        <input type="hidden" name="trades" , value={{formatJson trades}}>
         <input type="submit" value="Commit">
     </form>
 </div>
