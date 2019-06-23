@@ -1,38 +1,16 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const Trade = require("../models/trade");
-const validate = require("../utils/validate");
-const tradesController = require("../controllers/trades");
+const Trade = require('../models/trade');
+const validate = require('../utils/validate');
+const apiController = require('../controllers/api');
 
-router.get("/", tradesController.trades);
+router.get('/', apiController.get);
 
-router.post("/", (req, res) => {
-    const trade = new Trade(validate(req.body));
-    trade
-        .save()
-        .then(data => res.status(201).send(data))
-        .catch(error => res.status(400).send(error));
-});
+router.post('/', apiController.post);
 
-router.get("/:tradeID", (req, res) => {
-    Trade.findById(req.params.tradeID)
-        .then(data => {
-            if (data) res.status(200).send([data]);
-            else res.status(404).send();
-        })
-        .catch(err => res.status(500).send(err));
-});
+router.get('/:tradeID', apiController.getTradeByID);
 
-router.delete("/:tradeID", (req, res) => {
-    Trade.remove({ _id: req.params.tradeID })
-        .then(result => {
-            console.log(result);
-
-            if (result.deletedCount > 0) res.status(200).send(result);
-            else res.status(404).send();
-        })
-        .catch(err => res.status(500).send(err));
-});
+router.delete('/:tradeID', apiController.deleteByID);
 
 module.exports = router;
