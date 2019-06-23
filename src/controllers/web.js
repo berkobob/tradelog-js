@@ -47,7 +47,6 @@ exports.upload = (req, res) => {
                 trades.push(trade);
             });
             res.render('commit', { trades });
-            // res.send(trades);
         })
         .catch(e => console.log('*** ERROR: ***', e));
 };
