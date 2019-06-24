@@ -1,4 +1,4 @@
-const moment = require("moment");
+const moment = require('moment');
 
 class Position {
     constructor(trade) {
@@ -24,7 +24,7 @@ class Position {
     }
     close(date) {
         this.close = date;
-        this.days = moment(this.close).diff(moment(this.open), "days");
+        this.days = moment(this.close).diff(moment(this.open), 'days');
         if (this.days === 0) this.days = 1;
         this.netCashPerDay = this.netCash / this.days;
         console.log(`Days=${this.days} and ${this.netCashPerDay} per day`);
@@ -32,21 +32,29 @@ class Position {
 }
 
 class Symbol {
-    constructor() {
-        this.positions = [];
+    constructor(symbol) {
+        this.symbol = symbol;
         this.count = 0;
-        this.position = false;
+        this.closed = {
+            STK: [],
+            OPT: [],
+        };
+        this.open = {
+            STK: false,
+            OPT: false,
+        };
     }
 
     add(trade) {
-        if (this.position) {
-            this.position.add(trade);
-            if (this.position.quantity === 0) {
+        let pos = this.open[trade.assetClass];
+        if (pos) {
+            pos.add(trade);
+            if (pos.quantity === 0) {
                 this.count += 1;
-                this.positions.push(this.position);
-                this.position = false;
+                this.closed[trade.assetClass].push(pos);
+                this.open[trade.assetClass] = false;
             }
-        } else this.position = new Position(trade);
+        } else this.open[trade.assetClass] = new Position(trade);
     }
 }
 
@@ -58,7 +66,7 @@ exports.calculate = trades => {
 };
 
 const calcSymbol = trades => {
-    const symbol = new Symbol();
-    trades.sort((a, b) => a - b).forEach(trade => symbol.add(trade));
+    const symbol = new Symbol(trades[0].symbol);
+    trades.sort((a, b) => a.date - b.date).forEach(trade => symbol.add(trade));
     console.log(symbol);
 };

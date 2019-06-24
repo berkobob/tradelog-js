@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const tradeSchema = mongoose.Schema({
     date: {
@@ -10,7 +10,7 @@ const tradeSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        enum: ["BUY", "SELL"],
+        enum: ['BUY', 'SELL'],
     },
     quantity: {
         type: Number,
@@ -31,7 +31,7 @@ const tradeSchema = mongoose.Schema({
     putOrCall: {
         type: String,
         trim: true,
-        enum: ["P", "C", ""],
+        enum: ['P', 'C', ''],
     },
     tradePrice: {
         type: Number,
@@ -53,13 +53,13 @@ const tradeSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        enum: ["STK", "OPT"],
+        enum: ['STK', 'OPT'],
     },
     openOrClose: {
         type: String,
         required: true,
         trim: true,
-        enum: ["O", "C"],
+        enum: ['O', 'C'],
     },
     multiplier: {
         type: Number,
@@ -67,8 +67,11 @@ const tradeSchema = mongoose.Schema({
     },
     notes: {
         type: String,
-        trime: true,
+        trim: true,
+    },
+    ticker: {
+        type: String,
     },
 });
 
-module.exports = mongoose.model("Trade", tradeSchema);
+module.exports = mongoose.model('Trade', tradeSchema);
