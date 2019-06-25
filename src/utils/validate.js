@@ -8,7 +8,8 @@ const validate = trade => {
     if (!isNaN(symbol[symbol.length - 1])) symbol = symbol.slice(0, -1);
     trade.symbol = symbol;
 
-    if (trade.expiry) trade.expiry = moment(trade.expiry, 'DD/MM/YYYY')._d;
+    if (trade.expiry)
+        trade.expiry = moment(trade.expiry, ['DD/MM/YYYY', 'YYYYMMDD'])._d;
 
     return trade;
 };
