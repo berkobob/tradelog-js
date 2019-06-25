@@ -1,33 +1,31 @@
-const path = require("path");
-const csv = require("csvtojson");
+const path = require('path');
+const csv = require('csvtojson');
 
-const Trade = require("../models/trade");
-const { headers } = require("../utils/consts");
-const validate = require("../utils/validate");
-const allSettled = require("promise.allsettled");
-const { process } = require("../utils/calculate");
+const Trade = require('../models/trade');
+const { headers } = require('../utils/consts');
+const validate = require('../utils/validate');
+const allSettled = require('promise.allsettled');
+const { summary, closed, open } = require('../utils/calculate');
 
 exports.get = (req, res) => {
     let query = {};
     if (req.query.id) query._id = req.query.id;
     if (req.query.symbol) query.symbol = req.query.symbol;
 
-    Trade.find(query).then(results => {
-        Trade.find(query)
-            .then(results => res.status(200).render("home", process(results)))
-            .catch(err => res.status(500).send(err));
-    });
+    Trade.find(query)
+        .then(results => res.status(200).render('summary', summary(results)))
+        .catch(err => res.status(500).send(err));
 };
 
 exports.post = (req, res) => {
-    if (!req.files) return res.redirect("/");
+    if (!req.files) return res.redirect('/');
     let file = req.files.file.name;
-    let upload = path.join(__dirname, "../../uploads/", file);
+    let upload = path.join(__dirname, '../../uploads/', file);
     req.files.file.mv(upload, err => {
         if (err) res.status(500).send(err);
         csv({ noheader: false, headers })
             .fromFile(upload)
-            .then(trades => res.status(200).render("upload", { trades }))
+            .then(trades => res.status(200).render('upload', { trades }))
             .catch(e => console.log(e));
     });
 };
@@ -35,13 +33,13 @@ exports.post = (req, res) => {
 exports.upload = (req, res) => {
     const rawTrades = [];
     const trades = [];
-    const upload = JSON.parse(req.body.trades.replace(/_/g, " "));
+    const upload = JSON.parse(req.body.trades.replace(/_/g, ' '));
     upload.forEach(row => rawTrades.push(new Trade(validate(row)).save()));
     allSettled(rawTrades)
         .then(results => {
             results.forEach((result, i) => {
                 let trade = { status: result.status.toUpperCase() };
-                if (result.status === "fulfilled") trade.trade = result.value;
+                if (result.status === 'fulfilled') trade.trade = result.value;
                 else {
                     trade.trade = upload[i];
                     trade.trade._id = result.reason._message;
@@ -49,7 +47,37 @@ exports.upload = (req, res) => {
                 }
                 trades.push(trade);
             });
-            res.render("commit", { trades });
+            res.render('commit', { trades });
         })
-        .catch(e => console.log("*** ERROR: ***", e));
+        .catch(e => console.log('*** ERROR: ***', e));
+};
+
+exports.closed = (req, res) => {
+    let query = {};
+    if (req.query.id) query._id = req.query.id;
+    if (req.query.symbol) query.symbol = req.query.symbol;
+
+    Trade.find(query)
+        .then(results => res.status(200).render('closed', closed(results)))
+        .catch(err => res.status(500).send(err));
+};
+
+exports.open = (req, res) => {
+    let query = {};
+    if (req.query.id) query._id = req.query.id;
+    if (req.query.symbol) query.symbol = req.query.symbol;
+
+    Trade.find(query)
+        .then(results => res.status(200).render('open', open(results)))
+        .catch(err => res.status(500).send(err));
+};
+
+exports.trades = (req, res) => {
+    let query = {};
+    if (req.query.id) query._id = req.query.id;
+    if (req.query.symbol) query.symbol = req.query.symbol;
+
+    Trade.find(query)
+        .then(results => res.status(200).render('trades', { results }))
+        .catch(err => res.status(500).send(err));
 };

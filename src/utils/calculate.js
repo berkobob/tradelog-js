@@ -1,4 +1,4 @@
-const moment = require("moment");
+const moment = require('moment');
 
 class Position {
     constructor(trade) {
@@ -22,7 +22,7 @@ class Position {
     }
     close(date) {
         this.closed = date;
-        this.days = moment(this.closed).diff(moment(this.open), "days");
+        this.days = moment(this.closed).diff(moment(this.open), 'days');
         if (this.days === 0) this.days = 1;
         this.netCashPerDay = this.netCash / this.days;
         delete this.quantity;
@@ -59,35 +59,35 @@ const calculate = trades => {
         const symbol = new Symbol(name);
         trades
             .filter(trade => trade.symbol == name)
-            .sort((a, b) => (a.date = b.date))
-            .forEach(trade => symbol.add(trade));
-        portfolio.push(symbol);
-    });
-    return portfolio;
-};
-
-exports.process = trades => {
-    let portfolio = [];
-    new Set(trades.map(trade => trade.symbol)).forEach(name => {
-        const symbol = new Symbol(name);
-        trades
-            .filter(trade => trade.symbol == name)
-            .sort((a, b) => (a.date = b.date))
+            .sort((a, b) => a.date - b.date)
             .forEach(trade => symbol.add(trade));
         symbol.open.length = Object.keys(symbol.open).length;
         portfolio.push(symbol);
     });
+    sort(portfolio, 'name');
+    return portfolio;
+};
 
+const sort = (me, by) => {
+    me.sort((a, b) => {
+        if (a[by] > b[by]) return 1;
+        if (a[by] < b[by]) return -1;
+        return 0;
+    });
+};
+
+exports.summary = trades => {
+    const portfolio = calculate(trades);
     const results = {
         open: portfolio.reduce((sum, symbol) => sum + symbol.open.length, 0),
         closed: portfolio.reduce(
             (sum, symbol) => sum + symbol.closed.length,
-            0,
+            0
         ),
         proceeds: portfolio.reduce((sum, symbol) => sum + symbol.proceeds, 0),
         commission: portfolio.reduce(
             (sum, symbol) => sum + symbol.commission,
-            0,
+            0
         ),
         netCash: portfolio.reduce((sum, symbol) => sum + symbol.netCash, 0),
     };
@@ -95,5 +95,15 @@ exports.process = trades => {
     return {
         portfolio,
         results,
+    };
+};
+
+exports.closed = trades => {
+    return { portfolio: calculate(trades) };
+};
+
+exports.open = trades => {
+    return {
+        portfolio: calculate(trades),
     };
 };

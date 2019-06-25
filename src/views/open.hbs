@@ -1,0 +1,62 @@
+<table id="table" class="w3-table-all">
+    <tr id="header">
+        <th class="w3-center">DATE</th>
+        <th class="w3-left-align"></th>
+        <th class="w3-right-align">QUANTITY</th>
+        <th class="w3-left-align">SYMBOL</th>
+        <th class="w3-center"> </th>
+        <th class="w3-right-align">STRIKE</th>
+        <th class="w3-center">EXPIRY</th>
+        <th class="w3-right-align">PRICE</th>
+        <th class="w3-right-align">PROCEEDS</th>
+        <th class="w3-right-align">COMMISSION</th>
+        <th class="w3-right-align">NET CASH</th>
+        <th class="w3-center">ASSET</th>
+        <th class="w3-center"> </th>
+        <th class="w3-right-align">MULTIPLIER</th>
+        <th class="w3-center">NOTES</th>
+    </tr>
+    {{# each portfolio}}
+    {{# each this.open}}
+    {{# each this.trades}}
+
+    <tr>
+        <td id="rows" class="w3-center">{{formatDate this.date}}</td>
+        <td id="rows" class="w3-left-align">{{this.buyOrSell}}</td>
+        <td id="rows" class="w3-right-align">{{formatNums this.quantity}}</td>
+        <td id="rows" class="w3-left-align">{{this.symbol}}</td>
+        <td id="rows" class="w3-center">{{this.putOrCall}}</td>
+        <td id="rows" class="w3-right-align">{{formatStrike this.strike}}</td>
+        <td id="rows" class="w3-center">{{formatDate this.expiry}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.tradePrice}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.proceeds}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.commission}}</td>
+        <td id="rows" class="w3-right-align">{{formatCash this.netCash}}</td>
+        <td id="rows" class="w3-center">{{this.assetClass}}</td>
+        <td id="rows" class="w3-center">{{this.openOrClose}}</td>
+        <td id="rows" class="w3-right-align">{{formatNums this.multiplier}}</td>
+        <td id="rows" class="w3-center">{{this.notes}}</td>
+    </tr>
+    {{/each}}
+    {{/each}}
+    {{# if this.open.length}}
+    <tr>
+        <td id="rows" class="w3-center"></td>
+        <td id="rows" class="w3-center"></td>
+        <td id="rows" class="w3-center"></td>
+        <td id="rows" class="w3-center"></td>
+        <td id="rows" class="w3-center"></td>
+        <td id="rows" class="w3-center"></td>
+        <td id="rows" class="w3-right-align"><b>SUMMARY :</b></td>
+        <td id="rows" class="w3-center"></td>
+        <td id="rows" class="w3-right-align"><b>{{formatCash this.proceeds}}</b></td>
+        <td id="rows" class="w3-right-align"><b>{{formatCash this.commission}}</b></td>
+        <td id="rows" class="w3-right-align"><b>{{formatCash this.netCash}}</b></td>
+        <td id="rows" class="w3-right-align"></td>
+        <td id="rows" class="w3-right-align"></td>
+        <td id="rows" class="w3-right-align"></td>
+        <td id="rows" class="w3-right-align"></td>
+    </tr>
+    {{/if}}
+    {{/each}}
+</table>
