@@ -1,4 +1,4 @@
-const moment = require('moment');
+const moment = require("moment");
 
 class Position {
     constructor(trade) {
@@ -18,43 +18,36 @@ class Position {
         this.proceeds += trade.proceeds;
         this.commission += trade.commission;
         this.netCash += trade.netCash;
-
-        if (this.quantity === 0) this.close(trade.date);
         return this.quantity;
     }
     close(date) {
         this.close = date;
-        this.days = moment(this.close).diff(moment(this.open), 'days');
+        this.days = moment(this.close).diff(moment(this.open), "days");
         if (this.days === 0) this.days = 1;
         this.netCashPerDay = this.netCash / this.days;
-        console.log(`Days=${this.days} and ${this.netCashPerDay} per day`);
+        console.log(
+            `Trade complete: Days=${this.days} and ${
+                this.netCashPerDay
+            } per day`,
+        );
     }
 }
 
 class Symbol {
     constructor(symbol) {
         this.symbol = symbol;
-        this.count = 0;
-        this.closed = {
-            STK: [],
-            OPT: [],
-        };
-        this.open = {
-            STK: false,
-            OPT: false,
-        };
+        this.closed = [];
+        this.open = {};
     }
 
     add(trade) {
-        let pos = this.open[trade.assetClass];
-        if (pos) {
-            pos.add(trade);
-            if (pos.quantity === 0) {
-                this.count += 1;
-                this.closed[trade.assetClass].push(pos);
-                this.open[trade.assetClass] = false;
+        if (trade.ticker in this.open) {
+            if (!this.open[trade.ticker].add(trade)) {
+                this.open[trade.ticker].close(trade.date);
+                this.closed.push(this.open[trade.ticker]);
+                delete this.open[trade.ticker];
             }
-        } else this.open[trade.assetClass] = new Position(trade);
+        } else this.open[trade.ticker] = new Position(trade);
     }
 }
 

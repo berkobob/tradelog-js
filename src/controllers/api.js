@@ -1,8 +1,8 @@
-const path = require('path');
-const csv = require('csvtojson');
+const path = require("path");
+const csv = require("csvtojson");
 
-const Trade = require('../models/trade');
-const { calculate } = require('../utils/calculate');
+const Trade = require("../models/trade");
+const { calculate } = require("../utils/calculate");
 
 exports.get = (req, res) => {
     let query = {};
