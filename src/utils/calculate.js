@@ -53,7 +53,7 @@ class Symbol {
     }
 }
 
-exports.calculate = trades => {
+const calculate = trades => {
     const portfolio = [];
     new Set(trades.map(trade => trade.symbol)).forEach(name => {
         const symbol = new Symbol(name);
@@ -63,22 +63,37 @@ exports.calculate = trades => {
             .forEach(trade => symbol.add(trade));
         portfolio.push(symbol);
     });
-
-    portfolio.forEach(symbol => {
-        console.log(
-            `${symbol.name} made ${symbol.netCash} on ${
-                symbol.closed.length
-            } position(s) and has ${
-                Object.keys(symbol.open).length
-            } positions open`,
-        );
-    });
-
     return portfolio;
 };
 
-const calcSymbol = trades => {
-    const symbol = new Symbol(trades[0].symbol);
-    trades.sort((a, b) => a.date - b.date).forEach(trade => symbol.add(trade));
-    console.log(symbol);
+exports.process = trades => {
+    let portfolio = [];
+    new Set(trades.map(trade => trade.symbol)).forEach(name => {
+        const symbol = new Symbol(name);
+        trades
+            .filter(trade => trade.symbol == name)
+            .sort((a, b) => (a.date = b.date))
+            .forEach(trade => symbol.add(trade));
+        symbol.open.length = Object.keys(symbol.open).length;
+        portfolio.push(symbol);
+    });
+
+    const results = {
+        open: portfolio.reduce((sum, symbol) => sum + symbol.open.length, 0),
+        closed: portfolio.reduce(
+            (sum, symbol) => sum + symbol.closed.length,
+            0,
+        ),
+        proceeds: portfolio.reduce((sum, symbol) => sum + symbol.proceeds, 0),
+        commission: portfolio.reduce(
+            (sum, symbol) => sum + symbol.commission,
+            0,
+        ),
+        netCash: portfolio.reduce((sum, symbol) => sum + symbol.netCash, 0),
+    };
+
+    return {
+        portfolio,
+        results,
+    };
 };

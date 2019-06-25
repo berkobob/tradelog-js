@@ -1,48 +1,30 @@
-<div class="w3-container">
-    <form method="get" action="/" id="form">
-        <input type="text" name="symbol" />
-    </form>
-    <form action="/" method="post" encType="multipart/form-data">
-        <input type="file" name="file" id="file">
-        <input type="submit">
-    </form>
-</div>
 <table id="table" class="w3-table-all">
     <tr id="header">
-        <th class="w3-center">DATE</th>
-        <th class="w3-left-align">BUY OR SELL</th>
-        <th class="w3-right-align">QUANTITY</th>
         <th class="w3-left-align">SYMBOL</th>
-        <th class="w3-center">EXPIRY</th>
-        <th class="w3-right-align">STRIKE</th>
-        <th class="w3-center"> </th>
-        <th class="w3-right-align">PRICE</th>
+        <th class="w3-center">OPEN</th>
+        <th class="w3-center">CLOSED</th>
         <th class="w3-right-align">PROCEEDS</th>
         <th class="w3-right-align">COMMISSION</th>
         <th class="w3-right-align">NET CASH</th>
-        <th class="w3-center">ASSET</th>
-        <th class="w3-center"> </th>
-        <th class="w3-right-align">MULTIPLIER</th>
-        <th class="w3-center">NOTES</th>
 
     </tr>
-    {{# each results}}
+    {{# each portfolio}}
     <tr>
-        <td id="rows" class="w3-center">{{formatDate this.date}}</td>
-        <td id="rows" class="w3-left-align">{{this.buyOrSell}}</td>
-        <td id="rows" class="w3-right-align">{{formatNums this.quantity}}</td>
-        <td id="rows" class="w3-left-align">{{this.symbol}}</td>
-        <td id="rows" class="w3-center">{{formatDate this.expiry}}</td>
-        <td id="rows" class="w3-right-align">{{formatStrike this.strike}}</td>
-        <td id="rows" class="w3-center">{{this.putOrCall}}</td>
-        <td id="rows" class="w3-right-align">{{formatCash this.tradePrice}}</td>
+        <td id="rows" class="w3-left-align">{{this.name}}</td>
+        <td id="rows" class="w3-center">{{this.open.length}}</td>
+        <td id="rows" class="w3-center">{{this.closed.length}}</td>
         <td id="rows" class="w3-right-align">{{formatCash this.proceeds}}</td>
         <td id="rows" class="w3-right-align">{{formatCash this.commission}}</td>
         <td id="rows" class="w3-right-align">{{formatCash this.netCash}}</td>
-        <td id="rows" class="w3-center">{{this.assetClass}}</td>
-        <td id="rows" class="w3-center">{{this.openOrClose}}</td>
-        <td id="rows" class="w3-right-align">{{formatNums this.multiplier}}</td>
-        <td id="rows" class="w3-center">{{this.notes}}</td>
     </tr>
     {{/each}}
+    <tr>
+        <td id="rows" class="w3-right-align">TOTALS:</td>
+        <td id="rows" class="w3-center">{{results.open}}</td>
+        <td id="rows" class="w3-center">{{results.closed}}</td>
+        <td id="rows" class="w3-right-align"><b>{{formatCash results.proceeds}}</b></td>
+        <td id="rows" class="w3-right-align">{{formatCash results.commission}}</td>
+        <td id="rows" class="w3-right-align"><b>{{formatCash results.netCash}}</b></td>
+    </tr>
+
 </table>
