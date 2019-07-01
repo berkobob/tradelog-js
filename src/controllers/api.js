@@ -2,7 +2,7 @@ const path = require("path");
 const csv = require("csvtojson");
 
 const Trade = require("../models/trade");
-const { calculate } = require("../utils/calculate");
+const { summary, closed, open } = require("../utils/calculate");
 
 exports.get = (req, res) => {
     let query = {};
@@ -11,7 +11,7 @@ exports.get = (req, res) => {
 
     Trade.find(query)
         .then(results => {
-            res.status(200).send(calculate(results));
+            res.status(200).send(summary(results));
         })
         .catch(err => res.status(500).send(err));
 };
@@ -22,6 +22,26 @@ exports.post = (req, res) => {
         .save()
         .then(data => res.status(201).send(data))
         .catch(error => res.status(400).send(error));
+};
+
+exports.closed = (req, res) => {
+    let query = {};
+    if (req.query.id) query._id = req.query.id;
+    if (req.query.symbol) query.symbol = req.query.symbol;
+
+    Trade.find(query)
+        .then(results => res.status(200).send(closed(results)))
+        .catch(err => res.status(500).send(err));
+};
+
+exports.open = (req, res) => {
+    let query = {};
+    if (req.query.id) query._id = req.query.id;
+    if (req.query.symbol) query.symbol = req.query.symbol;
+
+    Trade.find(query)
+        .then(results => res.status(200).send(open(results)))
+        .catch(err => res.status(500).send(err));
 };
 
 exports.getTradeByID = (req, res) => {
