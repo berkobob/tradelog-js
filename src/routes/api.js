@@ -1,20 +1,22 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const Trade = require("../models/trade");
-const validate = require("../utils/validate");
-const apiController = require("../controllers/api");
+const Trade = require('../models/trade');
+const validate = require('../utils/validate');
+const apiController = require('../controllers/api');
 
-router.get("/", apiController.get);
+router.get('/', apiController.get);
 
-router.post("/", apiController.post);
+router.post('/', apiController.post);
 
-router.get("/closed", apiController.closed);
+router.get('/closed', apiController.closed);
 
-router.get("/open", apiController.open);
+router.get('/open', apiController.open);
 
-router.get("/:tradeID", apiController.getTradeByID);
+router.get('/trades', apiController.trades);
 
-router.delete("/:tradeID", apiController.deleteByID);
+router.get('/:tradeID', apiController.getTradeByID);
+
+router.delete('/:tradeID', apiController.deleteByID);
 
 module.exports = router;

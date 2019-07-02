@@ -59,7 +59,7 @@ const tradeSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        enum: ['O', 'C'],
+        enum: ['O', 'C', 'C;O', 'O;C'],
     },
     multiplier: {
         type: Number,

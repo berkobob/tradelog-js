@@ -11,6 +11,8 @@ class Position {
         this.commission = trade.commission;
         this.netCash = trade.netCash;
         this.netCashPerDay;
+        this.assetClass = trade.assetClass;
+        console.log(trade.assetClass);
     }
     add(trade) {
         this.trades.push(trade);

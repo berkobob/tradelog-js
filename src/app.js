@@ -55,6 +55,7 @@ app.engine(
                           }</strong>`
                       )
                     : trade['trade'][error],
+            closedExist: trades => trades.length,
         },
     })
 );

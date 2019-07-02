@@ -1,8 +1,8 @@
-const path = require("path");
-const csv = require("csvtojson");
+const path = require('path');
+const csv = require('csvtojson');
 
-const Trade = require("../models/trade");
-const { summary, closed, open } = require("../utils/calculate");
+const Trade = require('../models/trade');
+const { summary, closed, open } = require('../utils/calculate');
 
 exports.get = (req, res) => {
     let query = {};
@@ -41,6 +41,16 @@ exports.open = (req, res) => {
 
     Trade.find(query)
         .then(results => res.status(200).send(open(results)))
+        .catch(err => res.status(500).send(err));
+};
+
+exports.trades = (req, res) => {
+    let query = {};
+    if (req.query.id) query._id = req.query.id;
+    if (req.query.symbol) query.symbol = req.query.symbol;
+
+    Trade.find(query)
+        .then(results => res.status(200).send(results))
         .catch(err => res.status(500).send(err));
 };
 
