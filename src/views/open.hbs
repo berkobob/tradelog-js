@@ -1,12 +1,12 @@
 <table id="table" class="w3-table-all">
     <tr id="header">
-        <th class="w3-center">DATE</th>
+        <th class="w3-center">OPEN</th>
         <th class="w3-left-align">SYMBOL</th>
         <th class="w3-right-align">QUANTITY</th>
         <th class="w3-right-align">STRIKE</th>
         <th class="w3-center">EXPIRY</th>
         <th class="w3-center"> </th>
-        <th class="w3-left-align">DAYS</th>
+        <th class="w3-right-align">DAYS</th>
         <th class="w3-right-align">PROCEEDS</th>
         <th class="w3-right-align">COMMISSION</th>
         <th class="w3-right-align">NET CASH</th>
@@ -23,12 +23,12 @@
         <td id="rows" class="w3-right-align">{{strike this.trades}}</td>
         <td id="rows" class="w3-center">{{expiry this.trades}}</td>
         <td id="rows" class="w3-center">{{putOrCall this.trades}}</td>
-        <td id="rows" class="w3-left-align">{{daysSince this.open}}</td>
+        <td id="rows" class="w3-right-align">{{daysSince this.open}}</td>
         <td id="rows" class="w3-right-align">{{formatCash this.proceeds}}</td>
         <td id="rows" class="w3-right-align">{{formatCash this.commission}}</td>
         <td id="rows" class="w3-right-align">{{formatCash this.netCash}}</td>
         <td id="rows" class="w3-center">{{this.assetClass}}</td>
-        <td id="rows" class="w3-center">{{multiplier this.trades}}</td>
+        <td id="rows" class="w3-right-align">{{multiplier this.trades}}</td>
     </tr>
     {{/if}}
     {{/each}}
